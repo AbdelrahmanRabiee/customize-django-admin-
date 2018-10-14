@@ -29,6 +29,9 @@ class BigOrderFilter(admin.SimpleListFilter):
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['customer_name', 'name', 'email', 'street_1', 'city', 'state', 'country']
     list_editable = ['street_1', ]
+    search_fields = ['email', 'name']
+    list_filter = ['city']
+
 
 
 class PurchaseAdmin(admin.ModelAdmin):
@@ -36,6 +39,8 @@ class PurchaseAdmin(admin.ModelAdmin):
     ordering = ['placed_at',]
     list_editable = ['shipped', 'shipped_at']
     list_filter = ['shipped', BigOrderFilter]
+    search_fields = ['customer__email']
+    date_hierarchy = 'placed_at'
 
 
 class PurchaseItemAdmin(admin.ModelAdmin):
