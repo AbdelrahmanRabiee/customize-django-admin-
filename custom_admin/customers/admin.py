@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.db.models import Count
+from django.utils.timezone import now
 from . import models
 # Register your models here.
 
@@ -37,10 +37,19 @@ class CustomerAdmin(admin.ModelAdmin):
 class PurchaseAdmin(admin.ModelAdmin):
     list_display = ['customer', 'customer_name', 'placed_at', 'shipped', 'shipped_at', 'total']
     ordering = ['placed_at',]
-    list_editable = ['shipped', 'shipped_at']
+    list_editable = ['shipped']
     list_filter = ['shipped', BigOrderFilter]
     search_fields = ['customer__email']
+    actions = ['ship']
     date_hierarchy = 'placed_at'
+
+    def ship(self, request, queryset):
+        queryset.update(
+            shipped = True,
+            shipped_at = now()
+        )
+
+    ship.short_description = 'Make purchase as shipped now'
 
 
 class PurchaseItemAdmin(admin.ModelAdmin):
