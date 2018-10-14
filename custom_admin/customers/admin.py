@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.timezone import now
 from . import models
+from . import forms
 # Register your models here.
 
 class BigOrderFilter(admin.SimpleListFilter):
@@ -32,13 +33,19 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ['email', 'name']
     list_filter = ['city']
 
-    # customize detail view
-    fields = (
-        ('name', 'email'),
-        ('city', 'state'),
-        'country',
-    )
 
+    # customize detail view
+    # fields = (
+    #     ('name', 'email'),
+    #     ('city', 'state'),
+    #     'country',
+    # )
+    form = forms.CustomerForm
+
+    # when editing a record you have the choice to duplicate it
+    save_as = True
+    save_on_top = True
+    
 
 
 class PurchaseAdmin(admin.ModelAdmin):
