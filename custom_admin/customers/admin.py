@@ -32,6 +32,13 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ['email', 'name']
     list_filter = ['city']
 
+    # customize detail view
+    fields = (
+        ('name', 'email'),
+        ('city', 'state'),
+        'country',
+    )
+
 
 
 class PurchaseAdmin(admin.ModelAdmin):
@@ -42,6 +49,20 @@ class PurchaseAdmin(admin.ModelAdmin):
     search_fields = ['customer__email']
     actions = ['ship']
     date_hierarchy = 'placed_at'
+
+    fieldsets = (
+        (None,{
+            'fields':(
+                ('customer','shipped'),
+                ('discount_code','total')
+
+            )
+        }),
+        ('Dates',{
+            'classes':('collapse',),
+            'fields':('placed_at', 'shipped_at'),
+        })
+    )
 
     def ship(self, request, queryset):
         queryset.update(
