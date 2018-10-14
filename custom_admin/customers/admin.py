@@ -45,7 +45,7 @@ class CustomerAdmin(admin.ModelAdmin):
     # when editing a record you have the choice to duplicate it
     save_as = True
     save_on_top = True
-    
+
 
 
 class PurchaseAdmin(admin.ModelAdmin):
@@ -61,7 +61,8 @@ class PurchaseAdmin(admin.ModelAdmin):
         (None,{
             'fields':(
                 ('customer','shipped'),
-                ('discount_code','total')
+                ('discount_code','total'),
+
 
             )
         }),
@@ -84,6 +85,19 @@ class PurchaseItemAdmin(admin.ModelAdmin):
     pass
 
 
+class ProductAdmin(admin.ModelAdmin):
+    fields = (
+        ('name', 'slug'),
+        'description',
+        ('price', 'location', 'quantity'),
+        'featured'
+    )
+    radio_fields = {
+        'featured':admin.HORIZONTAL
+    }
+
 admin.site.register(models.Customer, CustomerAdmin)
 admin.site.register(models.Purchase, PurchaseAdmin)
 admin.site.register(models.PurchaseItem, PurchaseItemAdmin)
+admin.site.register(models.Product, ProductAdmin)
+

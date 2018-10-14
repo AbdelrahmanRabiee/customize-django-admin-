@@ -21,6 +21,23 @@ class Customer(models.Model):
     def customer_name(self):
         return self.name
 
+class Product(models.Model):
+    featured_choices = (
+        ('1','A'),
+        ('2', 'B'),
+        ('3', 'C')
+    )
+    name = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=120, unique=True)
+    description = models.TextField(blank=True, default='')
+    price = models.DecimalField(max_digits=9, decimal_places=2)
+    location = models.CharField(max_length=10, unique=True)
+    quantity = models.IntegerField()
+    featured = models.IntegerField(choices=featured_choices)
+
+    class Meta:
+        ordering = ['name']
+
 class Purchase(models.Model):
     customer        = models.ForeignKey(Customer, related_name='purchases', on_delete=models.CASCADE)
     placed_at       = models.DateTimeField(default=now)
@@ -28,7 +45,7 @@ class Purchase(models.Model):
     discount_code   = models.CharField(blank=True, default='', max_length=20)
     total           = models.DecimalField(max_digits=9, decimal_places=2)
     shipped         = models.BooleanField(default=False)
-    # items = models.ManyToManyField('products.Product', through='PurchaseItem')
+    items           = models.ManyToManyField(Product, through='PurchaseItem')
 
     @property
     def customer_name(self):
@@ -37,9 +54,11 @@ class Purchase(models.Model):
 
 
 
-
-
 class PurchaseItem(models.Model):
-    # product = models.ForeignKey('products.Product')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+
+
+
+
