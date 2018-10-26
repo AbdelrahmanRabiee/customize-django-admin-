@@ -23,9 +23,9 @@ class Customer(models.Model):
 
 class Product(models.Model):
     featured_choices = (
-        ('1','A'),
-        ('2', 'B'),
-        ('3', 'C')
+        (0,'A'),
+        (1, 'B'),
+        (2, 'C')
     )
     name = models.CharField(max_length=120)
     slug = models.SlugField(max_length=120, unique=True)

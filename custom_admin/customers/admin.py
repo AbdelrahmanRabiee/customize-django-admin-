@@ -95,6 +95,7 @@ class ProductAdmin(admin.ModelAdmin):
     radio_fields = {
         'featured':admin.HORIZONTAL
     }
+    prepopulated_fields = {'slug':('name',)}
 
 admin.site.register(models.Customer, CustomerAdmin)
 admin.site.register(models.Purchase, PurchaseAdmin)
