@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.timezone import now
 from . import models
 from . import forms
+from admin_view_permission.admin import AdminViewPermissionAdminSite
 # Register your models here.
 
 class BigOrderFilter(admin.SimpleListFilter):
